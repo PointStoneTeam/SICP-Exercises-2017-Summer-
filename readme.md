@@ -9,4 +9,4 @@ member:
 </br>Wang Zhichen
 </br>Song Shan
 
-Attention: put your 
+#### Attention: put your note into your own folder!
