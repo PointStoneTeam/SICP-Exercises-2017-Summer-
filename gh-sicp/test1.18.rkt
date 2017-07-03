@@ -1,0 +1,11 @@
+#lang racket
+(define (* a b)
+  (cond ((= a 0) 0)
+        ((= b 0) 0)
+        ((even? a) (* (halve a) (double b)))
+        (else (+ b (* (halve (- a 1)) (double b))))))
+(define (double x)
+  (+ x x))
+(define (halve x)
+  (/ x 2))
+(* 101 10)
