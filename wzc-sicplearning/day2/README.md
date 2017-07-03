@@ -10,8 +10,8 @@
   方法一： 可能的需求是为了将过去删除掉的修改重新应用到最新的版本，这时可以先回到历史版本处建立分支，然后回到原来的最新的版本，进行merge分支的操作。
   方法二： reset加上hard参数到需要的历史版本，然后再reset加上soft参数回来。
 >  ## 将历史版本的某文件版本拉到当前工作区或者暂存区进行处理：
-  方法一： git reset HEAD~2 foo.py，直接拉到暂存区。
-  方法二： git checkout HEAD~2 foo.py，拉到工作区和暂存区。
+  方法一： git reset HEAD\~2 foo.py，直接拉到暂存区。
+  方法二： git checkout HEAD\~2 foo.py，拉到工作区和暂存区。
 >  ## 已经有添加到暂存区的文件修改，之后又进行了修改。想要都撤销掉，变为和仓库中的版本相同（仓库覆盖工作和暂存）：
   方法一：1、git reset HEAD file 清空暂存区的提交，变为和仓库中的版本相同。2、git checkout  --  file 以暂存区为蓝本，覆盖掉工作区。
   方法二：git checkout HEAD --  file 。
