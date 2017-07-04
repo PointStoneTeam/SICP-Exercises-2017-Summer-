@@ -20,7 +20,7 @@
          (else -1))
    (+ a 1))
 
-1.2 没看清中间那个字符是什么如果是4
+1.2 没看清中间那个字符是什么，如果是4
 (/ (+ 5 4 (- 2 (- 3 (+ 6 (/ 1 3)))))
  (* 3 (- 6 2) (- 7 2)))
 
@@ -140,4 +140,108 @@ applicative-order evaluation 应用顺序求值？
       (+ (YHtriangle (- row 1) (- col 1))
          (YHtriangle (- row 1) col)))))
 
-1.14
+1.13 数学证明题，没看懂
+
+1.14 这道题要画很大的一张图。
+
+1.15 (看答案，实在不会求复杂度)求sin(a)近似，求复杂度。
+  求近似已经给出来公式，先定义下
+(define (cube x) (* x x x))
+
+(define (p x) (- (* 3 x) (* 4 (cube x))))
+
+(define (sine angle)
+    (if (not (> (abs angle) 0.1))
+        angle
+        (p (sine (/ angle 3.0)))))
+有一个trace or trace-entry函数可以追踪p...
+所以一共调用了5次，复杂度O(log n)
+
+1.16 根据题意定义即可
+(define (fast-expt-iter p n a)
+    (cond
+        ((= n 0) a)
+        ((even? n) (fast-expt-iter (square p) (/ n 2) a))
+        (else (fast-expt-iter p (- n 1) (* a p)))))
+(define (fast-expt2 p n)
+    (fast-expt-iter p n 1))
+
+1.17 没有乘法了，要自己写一个了
+(define (cheng a b)
+  (cond
+    ((= b 1) a)
+    ((even? b) (cheng (* 2 a) (/ b 2)))
+    ((odd? b)
+      (+ a (cheng a (- b 1))))))
+
+1.18 这道题要强制用迭代写乘法了
+
+(define (mul a b)
+  (mul-i a b 0))
+(define (mul-i a b n)
+  (cond ((= b 0)
+		 n)
+		((even? b)
+		 (mul-i (* 2 a) (/ b 2) n))
+		(else (mul-i a (- b 1) (+ n a)))))
+(define (even? n)
+  (= (remainder n 2) 0)) ;求余很屌
+
+1.19
+(define (even? n)
+	(= (remainder n 2) 0))
+(define (fib n)
+  (fib-iter 1 0 0 1 n))
+(define (fib-iter a b p q count)
+ (cond ((= count 0) b)
+        ((even? count)
+         (fib-iter a b (+ (square p) (square q)) (+ (* 2 p q) (square q)) (/ count 2)))
+				(else
+          (fib-iter (+ (* b q) (* a q) (* a p))
+           (+ (* b p) (* a q)) p q (- count 1)))))
+
+1.20辗转相除
+(define (gcd a b)
+  (if (= b 0)
+    a
+    (gcd b (remainder a b))))
+
+1.21-1.28 素数
+
+1.29 求积分
+;;;作者:wyc
+(define (cube n)
+  (* n n n))
+
+(define (inc n)
+  (+ 1 n))
+
+(define (sum term a next b)
+  (if (> a b)
+      0
+	  (+ (term a)
+		 (sum term (next a) next b))))
+
+(define (simpson f a b n)
+  (define h (/ (- b a) n))
+
+  (define (yk k) (f (+ a (* k h))))
+
+  (define (simpson-iter k)
+     (* (yk k)
+	    (cond ((or (= k 0) (= k n))  1)
+			  ((even? k) 2)
+			  ((odd? k) 4))))
+
+  (* (/ h 3.0) (sum simpson-iter 0 inc n)))
+
+ (simpson cube 0 1 100)
+
+1.30(留一个线性递归凑数)
+(define (sum term a next b)
+  (if (> a b)
+    0
+    (+ (term a)
+        (sum term (next a) next b))))
+
+1.31
