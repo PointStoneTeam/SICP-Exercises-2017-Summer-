@@ -244,4 +244,26 @@ applicative-order evaluation 应用顺序求值？
     (+ (term a)
         (sum term (next a) next b))))
 
-1.31
+1.31 过程抽象
+(define (product a term b next)
+  (if (> a b)
+    1
+    (* (term a)
+       (product (next a) term b next))))
+
+(define (identity x) x)
+(define (inc x) (+ x 1))
+
+(define (factorial n)
+  (product 1 identity n inc))
+
+
+(define (pi a b)
+  (define (pi-term n)
+    (if (even? n)
+      (/ (+ n 2) (+ n 1))
+      (/ (+ n 1) (+ n 2))))
+  (* 4.0
+     (product a pi-term b inc)))
+
+(pi 1 100)
