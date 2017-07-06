@@ -1,0 +1,15 @@
+(define (cont-farc n d k)
+    (define (iter a result)
+        (if (= a 0)
+            result
+            (iter (- a 1) (/ (n a) (- (d a) result ) ) )
+        )
+      )
+    (iter k 0)
+)
+(define (tan-cf x k)
+    (define (f i)
+        (if (= i 1) x (* x x)))
+    
+    (cont-farc f  (lambda (i) (- (* i 2) 1))  k))
+(tan-cf 1 20)
