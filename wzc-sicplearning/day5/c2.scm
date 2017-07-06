@@ -199,3 +199,204 @@
       (append (deep-reverse (cdr items))
               (list
                 (deep-reverse (car items)))))))
+
+2.33 map
+(define (map p sequence)
+  (accumulate
+    (lambda (x y)
+     (cons x (p y)))
+       nil sequence))
+(define (append seq1 seq2) (accumulate cons seq1 seq2))
+(define (length sequence) (accumulate inc 0 sequence))
+
+2.34明明是秦九昭啊
+(define (accumulate op initial sequence)
+	(if (null? sequence)
+  initial
+  (op (car sequence)
+     	(accumulate op initial (cdr sequence))
+  )
+	)
+)
+
+(define (horner-eval x coefficient-sequence)
+	(accumulate
+		(lambda (this-coeff higher-terms)
+			(+ this-coeff (* higher-terms x))
+		)
+    0
+    coefficient-sequence
+  )
+)
+
+2.35 计算子树
+(define (accumulate op initial sequence)
+	(if (null? sequence)
+  initial
+  (op
+    (car sequence)
+     	(accumulate op initial (cdr sequence))
+  )
+	)
+)
+
+(define (enumerate-tree tree)
+	(cond ((null? tree)
+   '())
+	((not (pair? tree))
+   (list 1))
+	(else
+     (append (enumerate-tree (car tree))
+        (enumerate-tree (cdr tree)))))
+)
+
+(define (count-leaves t)
+	(accumulate + 0 (
+    map (lambda (x) x) (enumerate-tree t)))
+)
+
+2.36 map car可以取出每个list第一个元素
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+    nil
+    (cons (accumulate op init (map car seqs))
+          (accumulate-n op init (map cdr seqs)))))
+
+2.37 矩阵乘法
+
+2.38 fold-left
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+(if (null? rest)
+  result
+        (iter (op result (car rest))
+              (cdr rest))))
+(iter initial sequence))
+
+2.53 和第一题一样了
+(list 'a 'b)
+; (a b)
+
+(list (list 'geroge))
+;((geroge))
+
+(cdr '((x1 x2) (y1 y2)))
+;((y1 y2))
+
+(cadr '((x1 x2) (y1 y2)))
+;(y1 y2)
+
+(pair? (car '(a short list)))
+; #f
+
+(define (memq a lat)
+  (if (null? lat)
+    #f
+    (or (eq? a (car lat))
+        (memq a (cdr lat)))))
+
+(memq 'red '((red shoes) (blue socks)))
+;#f
+
+(memq 'red '(red shoes blue socks))
+;#t
+
+2.54递归对比就好了
+(define (equal? l1 l2)
+	(cond
+		(
+    (and (null? l1) (null? l2))
+      true)
+		((eq? (car l1) (car l2))
+      (equal? (cdr l1) (cdr l2)))
+		((not (eq?
+      (car l1) (car l2)))
+        false)
+		(else
+      false)
+	)
+)
+
+2.55基础题
+(car ''(abracadabra))
+;相当于
+(car (quote (quote (abracadabra))))
+
+(car ''abracadabra)
+
+;Value: quote
+(cadr ''(abracadabra))
+;Value: (abracadabra)
+2.56-2.58符号求导...
+2.59-2.66操作集合~表
+2.67-2.72 哈夫曼...参考cjx，还是不会
+2.73 数据导向设计，核心思想貌似是
+
+(define (install-sum-package)
+    (define (addend s)
+        (car s))
+    (define (augend s)
+        (cadr s))
+    (define (make-sum x y)
+        (cond ((=number? x 0)
+                y)
+              ((=number? y 0)
+                x)
+              ((and (number? x) (number? y))
+                (+ x y))
+              (else
+                (attach-tag '+ x y))))
+    (put 'addend '+ addend)
+    (put 'augend '+ augend)
+    (put 'make-sum '+ make-sum)
+    (put 'deriv '+
+        (lambda (exp var)
+            (make-sum (deriv (addend exp) var)
+                      (deriv (augend exp) var))))
+'done)
+(define (make-sum x y)
+    ((get 'make-sum '+) x y))
+
+(define (addend sum)
+    ((get 'addend '+) (contents sum)))
+
+(define (augend sum)
+    ((get 'augend '+) (contents sum)))
+
+2.74 模块化设计...
+
+2.80
+(define install-=zero?
+	(put '=zero? 'scheme-number	(lambda (x) (= x 0)))
+	(put '=zero? 'rational	(lambda (x) (= (numer x) 0)))
+	(put '=zero? 'complex	(lambda (x) (and (= (real-part x) 0) (= (imag-part x) 0))))
+)
+
+2.81
+(define coercion-table
+  (make-table))
+(define get-coercion 
+  (coercion-table 'lookup-proc))
+(define put-coercion
+  (coercion-table 'insert-proc!))
+(define (apply-generic op . args)
+    (let ((type-tags (map type-tag args)))
+        (let ((proc (get op type-tags)))
+            (if proc
+                (apply proc (map contents args))
+                (if (= (length args) 2)
+                    (let ((type1 (car type-tags))
+                          (type2 (cadr type-tags))
+                          (a1 (car args))
+                          (a2 (cadr args)))
+                        (let ((t1->t2 (get-coercion type1 type2))
+                              (t2->t1 (get-coercion type2 type1)))
+                            (cond (t1->t2
+                                    (apply-generic op (t1->t2 a1) a2))
+                                  (t2->t1
+                                    (apply-generic op a1 (t2->t1 a2)))
+                                  (else
+                                    (error "No method for these types"
+                                            (list op type-tags))))))
+                    (error "No method for these types"
+                            (list op type-tags)))))))
