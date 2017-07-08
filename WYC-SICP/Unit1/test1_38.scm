@@ -1,0 +1,11 @@
+(define (cont-farc n d k)
+    (define (iter a result)
+        (if (= a 0)
+            result
+            (iter (- a 1) (/ (n a) (+ (d a) result )))))
+    (iter k 0))
+(define (oula i)
+    (if (= (remainder i 3) 2) 
+        (* (/ (+ i 1) 3) 2)
+        1))
+(+ (cont-farc (lambda (i) 1.0) oula 10) 2)
