@@ -1,0 +1,50 @@
+(define (perimeter-rec rec)
+    (let ((len (length-of-rec rec))
+          (width (width-of-rec rec)))
+      (* 2 (+ len width))))
+
+(define (area-rec rec)
+     (*  (length-of-rec rec)
+         (width-of-rec rec)))
+
+(define (length-of-rec rec)
+    (let ((len (length-1-rec rec)))
+         (let ((start (start-segment len))
+               (end (end-segment len)))
+               (- (get-x end) (get-x start)))))
+
+(define (width-of-rec rec)
+    (let ((width (width-1-rec rec)))
+        (let ((start (start-segment width))
+              (end (end-segment width)))
+            (- (get-y end) (get-y start)))))    
+
+(define (make-rectangle length-1 length-2 width-1 width-2)
+      (cons (cons length-1 length-2)
+            (cons width-1 width-2)))
+(define (length-1-rec rec)
+      (car (car rec)))
+(define (length-2-rec rec)
+      (cdr (car rec)))
+(define (width-1-rec rec)
+      (car (cdr rec)))
+(define (width-2-rec rec)
+      (cdr (cdr rec)))
+
+(define (make-point x y) (cons x y))
+(define (get-x pos) (car pos))
+(define (get-y pos) (cdr pos))
+
+(define (make-segment star-pos end-pos) (cons star-pos end-pos))
+(define (start-segment segment) (car segment))
+(define (end-segment segment) (cdr segment))
+
+
+(define length-1 (make-segment (make-point 1 4) (make-point 4 4)))
+(define length-2 (make-segment (make-point 1 2) (make-point 4 2)))
+(define width-1 (make-segment (make-point 1 2) (make-point 1 4)))
+(define width-2 (make-segment (make-point 4 2) (make-point 4 4)))
+(define rectangle (make-rectangle length-1 length-2 width-1 width-2))
+
+(perimeter-rec rectangle)
+(area-rec rectangle)
