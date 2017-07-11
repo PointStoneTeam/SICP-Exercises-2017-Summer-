@@ -62,4 +62,13 @@
                         answer))))
     (iter items '()))
 (square-list2 (list 1 2 3 4))
+(define (square-list3 items)
+    (define (iter things answer)
+        (if (null? things)
+            answer
+            (iter (cdr things)  
+                  (cons (square (car things))
+                        answer))))
+    (iter (reverse items) '()))  ; 修改
+(square-list3 (list 1 2 3 4)
 
