@@ -19,3 +19,20 @@ Log3(10a)<n ,n为整数
 16
 1.2-----------------------------------------
 (/ (+ 5 4 (- 2 (- 3 (+ 6 (/ 4 5))))) (* 3 (- 6 2) (- 2 7)))
+1.20--------------------------------------------
+(define (gcd a b)
+(if (= b 0)
+a
+(gcd b (reminder a b))))
+(gcd 206 40)
+(gcd 40 (reminder 206 40))
+(gcd (reminder 206 40) (reminder 40 (reminder 206 40)))
+(gcd (reminder 40 (reminder 206 40)) (reminder (reminder 206 40) (reminder 40 (reminder 206 40))))
+(gcd (reminder (reminder 206 40) (reminder 40 (reminder 206 40)))  (remind (reminder 40 (reminder 206 40))  (reminder (reminder 206 40) (reminder 40 (reminder 206 40))))
+.......
+(gcd 40 6)
+(gcd 6 4)
+(gcd 4 2)
+(gcd 2 0)
+正则序 reminder 11次
+应用序 reminder 4次
