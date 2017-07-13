@@ -36,3 +36,28 @@ a
 (gcd 2 0)
 正则序 reminder 11次
 应用序 reminder 4次
+--------------------------------------------------------------------------1.25
+一个数的幂对另一个数取模的过程
+(define (expmod base exp m)
+(cond ((= exp 0) 1)
+((even?  exp)
+(remainder  (square (expmod base (/ exp 2) m))  m))
+(else 
+(remainder  (* base (expmod  base  (- exp 1)  m))  m))))
+(define (fast-expt b n)
+(cond ((= n 0) 1)
+((even? n)  (square (fast-expt  b (/ n 2))))
+(else (* b  (fast-expt  b  (- n 1))))))
+----------------------------------------------------------------------
+(define ( expmod base exp m)
+(remainder (fast-expt base exp ) m))
+当exp=0时
+fast-expt运算一次 remainder 运算一次 
+expmod直接返回
+当exp不为0时
+fast-expt先循环算出乘积，最后进行一次remainder运算
+expmod remainder的次数多些, 每一个循环进行remainder运算
+当费马检测对一个很大的数进行素数检测时（10000000的10000000次幂）
+fast-expt会运算非常慢
+而expmod通过remainder将乘幂限制在一个很小的范围内（不会超过m）计算速度快很多
+所以Alyssa的函数运行不理想
