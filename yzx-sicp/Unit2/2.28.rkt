@@ -32,8 +32,7 @@
     (cadr tree))         
         
 ;;;Full-version-fringe;for all forms of trees
-(define (fringe tree) 
-   (define nil '()) 
-   (cond ((null? tree) nil) 
+(define (fringe tree)  
+   (cond ((null? tree) '()) 
          ((not (pair? tree)) (list tree)) 
          (else (append (fringe (car tree)) (fringe (cdr tree)))))) 
