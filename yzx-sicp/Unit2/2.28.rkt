@@ -31,3 +31,9 @@
 (define (right-branch tree)
     (cadr tree))         
         
+;;;Full-version-fringe;for all forms of trees
+(define (fringe tree) 
+   (define nil '()) 
+   (cond ((null? tree) nil) 
+         ((not (pair? tree)) (list tree)) 
+         (else (append (fringe (car tree)) (fringe (cdr tree)))))) 
