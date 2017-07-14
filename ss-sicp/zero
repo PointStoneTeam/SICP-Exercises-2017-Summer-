@@ -21,3 +21,7 @@ time flys
 在费马这里卡得略久 runtime real-time-clock 貌似都不是racket自带的 暂时无解先跳过
 不过 1.22是真心挺复杂的 实现一个产生连续奇数的函数 产生最小的因子 从某一个数开始检查素性产生素数。。。
 略复杂
+17.07.13
+在网上看到解决runtime的方法http://blog.csdn.net/sqh201030412/article/details/70859225
+在racket上下了一个sicp的包 加上#lang sicp 哈哈 小开心
+不过 后来输出的时间是零 应该是单位的问题 。。。想到有人看每天感想就很奇妙。。。
