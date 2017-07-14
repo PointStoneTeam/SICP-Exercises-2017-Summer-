@@ -36,3 +36,17 @@ x
 
 (define (right-branch tree)
     (cadr tree))
+
+;;;修正后适合各种数据的deep-reverse
+(define (deep-reverse-2 items) 
+   (define (deep-rev-if-required item) 
+     (if (not (pair? item)) 
+         item 
+         (deep-reverse-2 item))) 
+   (define (deep-rev-imp items result) 
+     (if (null? items) 
+         result 
+         (deep-rev-imp (cdr items) 
+                       (cons (deep-rev-if-required (car items)) 
+                             result)))) 
+   (deep-rev-imp items '())) 
