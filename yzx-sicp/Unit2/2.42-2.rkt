@@ -1,0 +1,46 @@
+#lang scheme
+(define (enumerate-interval l r)
+  (if (= l r)
+      (list l)
+      (cons l (enumerate-interval (+ l 1) r))))
+;(enumerate-interval 1 10)
+(define (contains? e pl)
+  (if (null? pl)
+      #f
+      (or (= e (car pl))
+          (contains? e (cdr pl)))))
+(define (no-repeat? position)
+  (if (null? positions)
+      #t
+      (and (not (contains? (car positions) (cdr positions)))
+           no-repeat? (cdr position))))
+
+(define (adjoin-position new-row k rest-of-queens)
+  (cons new-row rest-of-queens))
+(define (flatmap proc seq)
+  (accumulate append '() (map proc seq)))
+(define (safe? k position)
+  (define (px-y pl)
+    (map + positions (enumerate-interval 1 k)))
+  (define (px+y pl)
+    (map - positions (enumerate-interval 1 k)))
+  (and
+   (no-repeat? position)
+   (no-repeat? (px-y positions))
+   (no-repeat? (px+y positions))))
+(define (queens board-size)
+  (define empty-board '())
+  (define (queen-cols k)
+    (if (= k 0)
+        (list empty-board)
+        (filter
+         (lambda (positions) (safe? k positions))
+         (flatmap
+          (lambda (rest-of-queens)
+            (map (lambda (new-row)
+                   (addjoin-position new-row k rest-of-queens))
+                 (enumerate-interval 1 board-size)))
+          (queen-cols (- k 1))))))
+  (queen-cols board-size))
+
+(queens 9)
