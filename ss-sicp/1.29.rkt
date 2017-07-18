@@ -1,0 +1,17 @@
+#lang racket
+(define (simpson f a b n)
+(define h  (/(- b a) n))
+ ( define (sum term a next b)
+    (if (> a b)
+        0
+        (+ (term a)
+           (sum term (next a) next b))))
+  (define (add a) (+ a h ))
+(define (y x)
+  (cond ((= x a) (f a))
+        ((= x b) (f b))
+  ((and (even? (/ (- x a) h)) (not (= x a)))
+   (* (f x) 2) )
+  (else (* (f x) 4))))
+  (*(sum y a add b) h (/ 1 3)))
+(define (cube x) (* x x x))
