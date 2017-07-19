@@ -1,0 +1,11 @@
+#lang scheme
+
+(define (f i j)
+  (cond ((= i 1) 1)
+        ((= j 1) 1)
+        ((= i j) 1)
+        (else (+ (f (- i 1) (- j 1))
+                 (f (- i 1) j)
+                 ))))
+
+(f 5 4)
