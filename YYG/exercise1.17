@@ -1,0 +1,12 @@
+#lang scheme
+(define (mul m n)
+  (cond ((= 1 n) m)
+        ((even? n) (double (mul m (halve n))))
+        (else (+ m (mul m (- n 1)) ))
+        ))
+
+(define (double x) (* x 2))
+
+(define (halve x) (/ x 2))
+
+(mul 2 5)
