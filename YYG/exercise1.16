@@ -1,0 +1,12 @@
+#lang scheme
+(define (fast-expt b n)
+  (cond ((= n 1) b)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))
+  ))
+  
+(define (even? n)
+  (= (remainder n 2) 0) )
+
+(define (square x) (* x x))
+  (fast-expt 2 10)
