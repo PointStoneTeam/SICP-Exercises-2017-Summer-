@@ -1,0 +1,13 @@
+#lang scheme
+(define (smart-divisor n m)
+  (cond ((> (square n) m) m)
+        ((divisor? n m) n)
+        (else (smart-divisor (+ n 1) m)))
+  )
+(define (square x) (* x x))
+
+(define (divisor? n m) (= (remainder m n) 0))
+
+(smart-divisor 2 199)
+(smart-divisor 2 1999)
+(smart-divisor 2 19999)
