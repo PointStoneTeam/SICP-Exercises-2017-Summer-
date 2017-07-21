@@ -1,0 +1,23 @@
+#lang scheme
+(define tolerance 0.000001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess n)
+    (displayit guess n)
+    (let ((next (f guess)))
+      (if(close-enough? guess next)   
+        (begin
+          (displayit next (+ n 1))
+          next)
+         (try next (+ n 1)))))
+  (try first-guess 1))
+(define (displayit guess n)
+  (display guess)
+  (display " 次数：")
+  (display n)
+  (newline))
+;(define g
+ ;   (lambda (x)
+  ;      (/ (log 1000) 
+   ;        (log x))))
