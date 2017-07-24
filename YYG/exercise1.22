@@ -1,0 +1,31 @@
+#lang racket
+(define (search-for-prime begin last)
+
+  (if (even? begin) (search-for-prime2 (+ begin 1) last)
+      (search-for-prime2 begin last)))
+
+(define (even? n) (= (remainder n 2) 0))
+
+
+  (define (search-for-prime2 begin last)
+    (time-prime begin)
+    (if (< begin last) (search-for-prime2 (+ begin 2) last) (display "finished")))
+
+
+(define (time-prime n)
+  (if (prime? n)
+  (report-time n) (display "not is prime")))
+
+(define (report-time m)
+  (display m)
+  (display "****"))
+
+
+(define (prime? n) (prime?2 2 n))
+
+(define (prime?2 m n)
+  (cond ((> (* m m) n) true)
+        ((= (remainder n m) 0) false)
+        (else ( prime?2 (+ m 1) n))))
+
+(search-for-prime 1000 10000)
