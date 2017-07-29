@@ -1,0 +1,20 @@
+#lang sicp
+(define (f x)
+  (* x x x))
+(define (even? x)
+  (= (remainder x 2) 0))
+
+
+
+(define (term x m n)
+  (cond ((= m 0) (f 0))
+  ((= m n) (f 1))
+  ((even? m) (* 4 (f x)))
+  (else (* 2 (f x)))
+  ))
+(define (sum f term a b m n)
+  (if (> m n) 0 (+ (term (+ a (* m (/ b n))) m n)
+                   (sum f term a b (+ m 1) n))))
+
+(define (simperson f a b n) (* (/ (- b a) 3 n)(sum f term a b 0 n)))
+(simperson f 0 1 1000)
