@@ -1,0 +1,17 @@
+#lang sicp
+(define (product2 term a next b)
+  (define (iter a result)
+    (if (> a b) result (iter (next a) (* (term a) result))))
+  (iter a 1))
+
+
+(define (term m)
+  (cond ((even? m) (/ (+ m 2) (+ m 1)))
+        (else (/ (+ m 1) (+ m 2) ))))
+
+(define (even? m)
+  (= (remainder m 2) 0))
+
+(define (next a) (+ a 1))
+(define (product n) (product2 term 1 next n))
+(product 15)
