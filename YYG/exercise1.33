@@ -1,0 +1,27 @@
+#lang sicp
+(define (filter-accumulate prime? next combiner a b)
+  (define (accumulate a result)
+    (cond ((> a b) result)
+          ((prime? a) (accumulate (next a) (combiner a result)))
+          (else (accumulate (next a) result))))
+  (accumulate a 0))
+
+(define (prime? a)
+ (= (small-divisor a) a))
+
+(define (small-divisor a) (test a 2))
+
+(define (test a n)
+  (cond
+    ((> n a) a)
+    ((= (remainder a n) 0) n)
+        (else (test a (+ n 1)))))
+
+(define (combiner a b) (+ a b))
+
+
+(define (sum-prime a b) (filter-accumulate prime? next combiner a b))
+
+(define (next a) (+ a 1))
+
+(sum-prime 3 4)
