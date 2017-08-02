@@ -1,0 +1,19 @@
+#lang sicp
+(define (accumulate term next combiner a b)
+  (define (iter-filter a result)
+    (if (> a b) result (iter-filter (next a) (combiner (term a) result))))
+  (iter-filter 1 1))
+
+(define (term a)
+  (cond ((even? a) (/ (+ a 2) (+ a 1)))
+        (else (/ (+ a 1) (+ a 2)))))
+
+(define (even? a)
+  (= (remainder a 2) 0))
+
+(define (combiner a b) (* a b))
+
+
+(define (next a) (+　a 1))
+
+(define (factorial n) (accumulate term next combiner 1 n))
