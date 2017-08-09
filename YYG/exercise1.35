@@ -1,0 +1,10 @@
+#lang sicp
+(define (golden f)
+  (define (enough a b)
+    (< (abs (- a b)) 0.001))
+  (define (find-fixd-point f guess)
+    (let ((next (f guess)))
+    (if (enough next guess) next (find-fixd-point f next))))
+  (find-fixd-point f 1.0))
+  
+(golden (lambda (guess) (+ 1.0 (/ 1.0 guess))))
