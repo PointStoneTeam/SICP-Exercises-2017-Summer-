@@ -1,0 +1,16 @@
+#lang sicp
+
+(define (getroot f)
+  (define (enough a b)
+    (< (abs (- a b)) 0.00001))
+  (define (fixed-point f guess)
+    (display guess) (newline)
+    (let ((next (f guess)))
+      (if (enough guess next) next (fixed-point f next))))
+  (fixed-point f 2.0)
+  
+  )
+
+(getroot (lambda (guess) (/ (log 1000) (log guess))))
+
+(getroot (lambda (guess) (/ (+ (/ (log 1000) (log guess)) guess) 2)))
